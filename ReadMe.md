@@ -28,7 +28,7 @@ Jelly.Console+ adds three new entries in your `user_settings.json` after the fir
 }
 ```
 
-- **`console_key`** is the key that is used to open the console, the default is 192. To figure out which number you have to use, you can use [this page](http://jsfiddle.net/9uLedsg9/embedded/result/). Simply click into the yellow bit, press your desired key and it should write on the page which number to use. This may not work in all browsers, you might need to work Chrome or one of its derivates.
+- **`console_key`** is the key that is used to open the console, the default is 192. To figure out which number you have to use, you can use [this page](http://jsfiddle.net/9uLedsg9/2/embedded/result/). Simply click into the yellow bit, press your desired key and it should write on the page which number to use. This may not work in all browsers, you might need to work Chrome or one of its derivates.
 - **`height`** is the height of the console, in pixels. This should not be smaller than 50 or taller than 500.
 - **`last_lines`** simply contains your history and can be ignored. It is not configuration relevant.
 
