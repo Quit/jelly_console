@@ -144,27 +144,4 @@ function console._set_selected(entity)
 	SELECTED = entity
 end
 
-
---~ function ServerHandler:select(session, response, entity)
---~ 	SELECTED = entity
---~ 	print('Selected ', entity)
---~ 	return { succes = true, entity = tostring(entity or '(none)') }
---~ end
-
---~ function ServerHandler:eval(session, response, str)
---~ 	local fn, err = loadstring(str)
---~ 	if not fn then
---~ 		return { success = false, error = err }
---~ 	end
---~ 	
---~ 	scope_function(fn)
---~ 	local ret = { pcall(fn) }
---~ 	local success = table.remove(ret, 1)
---~ 	if not success then
---~ 		return { success = false, error = ret[1] }
---~ 	else
---~ 		return { success = true, returned = ret }
---~ 	end
---~ end
-
 return console
