@@ -1,0 +1,29 @@
+{
+	"info" : {
+		"name" : "[JELLY] ConsolePlus",
+		"description" : "Pimps Radiant's ingame console a little bit.",
+		"version" : 1
+	},
+	
+	"server_init_script" : "file(server_commands)",
+	
+	"ui" : {
+		"js" : [ "file(consoleplus.js)", "file(consoleplus_commands.js)" ]
+	},
+	
+	"overrides" : {
+		"/stonehearth/ui/debug/console/console.js" : "file(console.js)"
+	},
+	
+ "functions" : {
+		"server:call": {
+			 "controller" : "file(js_handler.lua)",
+			 "endpoint" : "server"
+		},
+		
+		"server:get_datastore" : {
+			"controller" : "file(js_handler.lua)",
+			"endpoint" : "server"
+		}
+	}
+} 
