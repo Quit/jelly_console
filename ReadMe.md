@@ -1,6 +1,7 @@
 Jelly.Console+
 =====
 
+
 Jelly.Console+ is changing and extending Stonehearth's in-game console.
 
 ## Features
@@ -49,6 +50,11 @@ If you are confused about how it works, there's a built-in command, `show_argume
 There are functions that do not need this advanced parsing up to the point where it could be impossible to use it (for example, `eval`). These functions are named below with an '@' at the beginning and can be called as such. For example, `eval return false -- "^^` will claim that there is an unfinished long string, whereas `@eval return false -- "^^` will work as expected. **This will turn off command parsing altogether, however** - some functions therefore require it to be enabled at all time. For these functions, their @-counterpart does not exist.
 
 All commands that take as first argument an entity require either a "link" to the entity (as a string, like `"object://game/1234"`) or they will use the last selected entity (by clicking on it in the world, followed by the command `select`).
+
+## Writing your own commands
+Have a look at the [example commands](example_commands.lua) that I've included for learning purposes (they are not activated in normal installations). You can of course also check out the source of the [server commands](server_commands.lua)
+
+## Built-in commands
 
 ### `@ select [entity]`
 Selects the currently active entity. This will set `SELECTED` in the lua-realm. If there is no selected entity, `SELECTED` becomes nil. This function can be used to preselect an entity for various commands.
