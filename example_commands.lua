@@ -16,7 +16,8 @@ console.add_command(
 		-- Return them too
 		-- You're free to return whatever you want. What you return here is displayed to the user in the console, however, so you might want to specially format this.
 		return { status = 'Success', name = name, args = args, arg_str = arg_str }
-	end
+	end,
+	'Usage: example_echo ...'
 )
 
 -- Returns the longest parameter. This function will not accept the simple mode (by prefixing the command with @).
@@ -29,6 +30,35 @@ console.add_command('get_longest_argument', function(name, args)
 	end
 	
 	return { status = (str and 'Success' or 'Failure'), longest = str, length = length }
-end)
+end, 'Usage: get_longest_argument ...')
+
+-- Shows how to use SELECTED and USAGE
+console.add_command('biggify', function(name, args)
+	-- Make sure that args[1] is the entity
+	if not radiant.check.is_entity(args[1]) then
+		-- If no entity was passed, check if there was a SELECTED one
+		if not radiant.check.is_entity(SELECTED) then
+			USAGE('No entity selected')
+		end
+		
+		-- the SELECTED entity becomes args[1]
+		table.insert(args, 1, SELECTED)
+	end
+	
+	-- Get the entity and the size
+	local ent, size = args[1], args[2]
+	
+	-- Determine size by the argument given
+	if size == 'titan' then
+		size = 1
+	elseif size == 'tiny' then
+		size = 0.01
+	else
+		-- Throw an error, showing the usage of the function
+		USAGE('size must be either titan or tiny!')
+	end
+	
+	ent:add_component('render_info'):set_scale(size)
+end, 'Usage: biggify [entity] (titan|tiny)')
 
 return {}
