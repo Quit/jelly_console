@@ -105,7 +105,7 @@ add_entity_command('@set_scale', function(cmd, args)
 		USAGE('Invalid scale.')
 	end
 	
-	ent:add_component('@render_info'):set_scale(size)
+	ent:add_component('render_info'):set_scale(size)
 	return Success()
 end, 'Usage: set_scale [entity] scale. If `entity` is not specified, the selected entity is used instead.')
 
@@ -116,7 +116,7 @@ end, 'Usage: get_scale [entity]. If `entity` is not specified, the selected enti
 -- Model variants *might* have whitespace?
 add_entity_command('set_model_variant', function(cmd, args)
 	local model = args[2]
-	if type(model) ~= 'string' or model == '' then
+	if type(model) ~= 'string' then
 		USAGE('Invalid model.')
 	end
 	
