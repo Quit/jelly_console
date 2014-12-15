@@ -135,4 +135,13 @@ $(top).on('jelly.PostRootViewInit', function() {
 			return def;
 		}
 	});
+	
+	// Allow empty lines. Not exactly a nice solution, but a cheap one.
+	radiant.console.register('', {
+		call: function() {}
+	});
+	
+	radiant.console.register('clear', {
+		call: function() { $('#console .output').empty(); }
+	});
 }); // end jelly.PostRootViewInit

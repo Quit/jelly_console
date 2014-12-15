@@ -56,6 +56,9 @@ Have a look at the [example commands](example_commands.lua) that I've included f
 
 ## Built-in commands
 
+### `  clear`
+Clears the console window.
+
 ### `@ show_arguments ...`
 Debugging function. As `@show_arguments`, it will return the arguments the same way any function receives them when called in "plain mode". Without the @, it will return arguments parsed, just like commands normally receive them.
 
