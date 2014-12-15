@@ -28,6 +28,7 @@ local console = { _commands = {}, _datastore = radiant.create_datastore() }
 -- The currently selected entity
 local SELECTED
 local USAGE -- function that can be called in case the command was used wrongly
+local _L = {} -- local environment that new variables are inserted into
 
 -- Scopes a function so they gain access to SELECTED. This is really evil. Kinda.
 -- (it's also not working with lua5.2 I think?)
@@ -39,18 +40,31 @@ do
 		local ENV = {}
 		
 		function ENV:__index(key)
+			-- Because of its nature, "SELECTED" and "USAGE" are always available
+			-- and are not meant to be overwritten/changed by console commands
 			if key == 'SELECTED' then
 				return SELECTED
 			elseif key == 'USAGE' then
 				return USAGE
+			elseif key == '_L' then
+				return _L
 			else
-				return old_env[key]
+				-- Last attempt; prefer local values
+				local val = rawget(_L, key)
+				if val ~= nil then
+					return val
+				else
+					return old_env[key]
+				end
 			end
 		end
 		
 		function ENV:__newindex(key, value)
 			if key == 'SELECTED' then
 				SELECTED = value
+			-- Functions that are already defined globally may be overwritten
+			elseif rawget(old_env, key) == nil then
+				_L[key] = value
 			else
 				old_env[key] = value
 			end
