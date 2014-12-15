@@ -104,12 +104,16 @@ App.StonehearthConsoleView = App.View.extend({
 						//
 						// START JELLY
 						//
-						self.inputElements.push(command);
-						if (self.inputElements.length == 50)
-							self.inputElements.shift();
-					  // I'm sure this isn't what the config is supposed to do, but I don't want to re-route everything
-					  // through lua just to get access to saved variables (which are still heavily magic to me)
-					  radiant.call('radiant:set_config', 'mods.jelly_console.last_lines', self.inputElements);
+						// Only add the new line if it is not empty *and* it's not the same as our last one
+					  if (command != '' && (self.inputElements.length == 0 || self.inputElements[self.inputElements.length - 1] != command))
+					  {
+							 self.inputElements.push(command);
+							 if (self.inputElements.length == 50)
+								 self.inputElements.shift();
+							 // I'm sure this isn't what the config is supposed to do, but I don't want to re-route everything
+							 // through lua just to get access to saved variables (which are still heavily magic to me)
+							 radiant.call('radiant:set_config', 'mods.jelly_console.last_lines', self.inputElements);
+						}
 						self.inputIndex = 0;
 						//
 						// END JELLY
