@@ -31,7 +31,6 @@ JsHandler['server:call'] = function(self, session, response, ...)
 end
 
 JsHandler['server:get_datastore'] = function(self, session, response, ...)
-	print('datastore requested')
 	return { datastore = console._datastore }
 end
 
