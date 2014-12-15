@@ -100,3 +100,34 @@ Sets the position of `entity` to `(x, y, z)`. If `entity` was not specified, the
 
 ### `@ get_pos [entity]`
 Returns the position of `entity`.
+
+### `@ add_buff [entity] uri`
+Adds the buff located at `uri` to `entity`.  If `entity` was not specified, the selected entity is used instead.
+
+### `@ set_display_name [entity] name`
+Sets the display name of `entity` to everything that follows after the first argument.  If `entity` was not specified, the selected entity is used instead.
+
+### `@ get_display_name [entity]`
+Returns the display name of `entity`. ### `@ set_display_name [entity] name`
+Sets the display name of `entity` to everything that follows after the first argument.  If `entity` was not specified, the selected entity is used instead.
+
+### `@ set_name [entity] name`
+Sets the name of `entity` to everything that follows after the first argument.  If `entity` was not specified, the selected entity is used instead.
+
+### `@ think [entity] uri`
+Forces `entity` to think `uri`. These are the thought bubbles for sleep or hunger that appears over their heads. This "thought" will persist until `unthink` is called. If `entity` was not specified, the selected entity is used instead.
+
+### `@ unthink [entity] uri`
+Forces `entity` to stop thinking about `uri`. If `entity` was not specified, the selected entity is used instead.
+
+### `@ equip_item [entity] (equipment_uri|equipment_entity)`
+Equips something on `entity`. If the second argument is a string, said entity is created. If `entity` was not specified, the selected entity is used instead.
+
+### `@ unequip_item [entity] uri`
+Unequips equipment of type `uri` on `entity`. If `entity` was not specified, the selected entity is used instead.
+
+### `@ get_equipment [entity]`
+Lists all equipment items currently on `entity`. If `entity` was not specified, the selected entity is used instead.
+
+### `@ run_effect [entity] uri`
+Runs an effect on `entity`. Note that this effect cannot be stopped. If `entity` was not specified, the selected entity is used instead.

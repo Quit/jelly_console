@@ -143,6 +143,96 @@ add_entity_command('@get_pos', function(cmd, args)
 	return Success(radiant.entities.get_world_location(args[1]))
 end, 'Usage: get_pos [entity]. If `entity` is not specified, the selected entity is used instead.')
 
+add_entity_command('@add_buff', function(cmd, args)
+	if type(args[2]) ~= 'string' then
+		USAGE('Invalid buff name')
+	end
+	radiant.entities.add_buff(args[1], args[2])
+	return Success()
+end, 'Usage: add_buff [entity] buff_name. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@get_display_name', function(cmd, args)
+	return Success(radiant.entities.get_display_name(args[1]))
+end, 'Usage: get_display_name [entity]. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@set_display_name', function(cmd, args, arg_str)
+	local ent = table.remove(args, 1)
+	local name = table.concat(args, ' ')
+	radiant.entities.set_display_name(ent, name)
+	return Success()
+end, 'Usage: set_display_name [entity] name. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@get_name', function(cmd, args)
+	return Success(radiant.entities.get_name(args[1]))
+end, 'Usage: get_name [entity]. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@set_name', function(cmd, args, arg_str)
+	local ent = table.remove(args, 1)
+	local name = table.concat(args, ' ')
+	radiant.entities.set_name(ent, name)
+	return Success()
+end, 'Usage: set_name [entity] name. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@think', function(cmd, args)
+	if type(args[2]) ~= 'string' then
+		USAGE('Invalid uri.')
+	end
+	
+	radiant.entities.think(args[1], args[2], tonumber(args[3]) or 0)
+	return Success()
+end, 'Usage: think [entity] uri [priority]')
+
+add_entity_command('@unthink', function(cmd, args)
+	if type(args[2]) ~= 'string' then
+		USAGE('Invalid uri.')
+	end
+	
+	radiant.entities.unthink(args[1], args[2])
+	return Success()
+end, 'Usage: unthink [entity] uri. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@equip_item', function(cmd, args)
+	if type(args[2]) == 'string' then
+		args[2] = radiant.entities.create_entity(args[2])
+	end
+	
+	if not is_entity(args[2]) then
+		USAGE('The equipment must be an entity too.')
+	end
+	
+	radiant.entities.equip_item(args[1], args[2])
+	return Success()
+end, 'Usage: equip_item [entity] (uri|entity). If an uri is specified, a new item is created. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@unequip_item', function(cmd, args)
+	if type(args[2]) ~= 'string' then
+		USAGE('Invalid uri.')
+	end
+	
+	radiant.entities.unequip_item(args[1], args[2])
+	return Success()
+end, 'Usage: unequip_item [entity] uri. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command({ '@get_equipment', '@get_equip', '@equip_get' }, function(cmd, args)
+	local eq = assert(args[1]:get_component('stonehearth:equipment'), 'Entity does not have an equipment component')
+	
+	local t = {}
+	for k, v in pairs(eq:get_all_items()) do
+		t[k] = tostring(v) -- to make formatting nicer
+	end
+	
+	return t
+end, 'Usage: get_equipment [entity]. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@run_effect', function(cmd, args)
+	if type(args[2]) ~= 'string' then
+		USAGE('Invalid uri.')
+	end
+	
+	radiant.effects.run_effect(args[1], args[2])
+	return Success()
+end)
+
 -- used by select on the JS side
 console.add_command('~select', function(cmd, args, argstr)
 	SELECTED = args[1]
