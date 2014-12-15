@@ -56,9 +56,6 @@ Have a look at the [example commands](example_commands.lua) that I've included f
 
 ## Built-in commands
 
-### `@ select [entity]`
-Selects the currently active entity. This will set `SELECTED` in the lua-realm. If there is no selected entity, `SELECTED` becomes nil. This function can be used to preselect an entity for various commands.
-
 ### `@ show_arguments ...`
 Debugging function. As `@show_arguments`, it will return the arguments the same way any function receives them when called in "plain mode". Without the @, it will return arguments parsed, just like commands normally receive them.
 

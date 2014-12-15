@@ -26,10 +26,8 @@ SOFTWARE.
 var tracer; // no idea why I've kept this public in jelly - to avoid GC?
 
 $(top).on('jelly.PostRootViewInit', function() {
-	var selected;
-
 	$(top).on("radiant_selection_changed.unit_frame", function (_, data) {
-		selected = data.selected_entity;
+		radiant.call('jelly_console:server:call', '~select', [ data.selected_entity ], undefined);
 	});
 	
 	// Calls a lua function with said arguments, parsing the arguments nicely before it does though
@@ -80,30 +78,6 @@ $(top).on('jelly.PostRootViewInit', function() {
 		}); // end foreach command
 	}); // end tracer.progress
 }).fail(function(o) { console.error('trace error: ', o); }); // end radiant.call
-
-	// Selects an entity, ready to be used on the lua side
-	{
-		var selectFunc = function(cmdobj, fn, args)
-		{
-			var entity;
-			if (args[0])
-				entity = 'object://game/' + args[0];
-			else
-				entity = selected;
-			
-			// We call this too, as per radiant's default implementation, but prefer our result
-			radiant.call('radiant:client:select_entity', entity);
-			return radiant.call('jelly_console:server:call', '~select', [ entity ], undefined);
-		};
-		
-		radiant.console.register('select', {
-			call: selectFunc
-		});
-		
-		radiant.console.register('@select', {
-			call: selectFunc
-		});
-	}
 	
 	var setHeight = function(newHeight)
 	{
