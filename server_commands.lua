@@ -33,7 +33,7 @@ console.add_command({ '@eval', '@lua_run', '@lua', '@l' }, function(cmd, args, a
 		error('Cannot compile function: ' .. err)
 	end
 	
-	return { status = 'Success', result = setfenv(func, getfenv())() }
+	return { status = 'Success', result = console.set_function_scope(func)() }
 end, 'Usage: eval lua_string')
 
 local function Success(result)
@@ -50,7 +50,7 @@ local function add_entity_command(names, callback, usage_str)
 			table.insert(args, 1, SELECTED)
 		end
 		
-		return setfenv(callback, getfenv())(cmd, args, ...)
+		return console.set_function_scope(callback)(cmd, args, ...)
 	end, usage_str)
 end
 
@@ -233,6 +233,15 @@ add_entity_command('@run_effect', function(cmd, args)
 	return Success()
 end)
 
+local function run_require(name)
+  local ret, err = loadfile('mods/jelly_console/run/' .. name .. '.lua')
+  if not ret then
+    error(err, 2)
+  end
+  
+  return console.set_function_scope(ret)()
+end
+
 console.add_command('@run', function(cmd, args, arg_str)
   local func, err = loadfile('mods/jelly_console/run/' .. arg_str)
   
@@ -241,17 +250,11 @@ console.add_command('@run', function(cmd, args, arg_str)
   end
 
   -- Overload require so it works as expected
-  local old_require = _L.require
-  _L.require = function(name)
-    local ret, err = loadfile('mods/jelly_console/run/' .. name .. '.lua')
-    if not ret then
-      error(err, 2)
-    end
-    
-    return ret()
-  end
+  local old_require
+  old_require, _L.require  = _L.require, run_require
   
-  local status, ret = pcall(setfenv(func, getfenv()))
+  local status, ret = pcall(console.set_function_scope(func))
+  
   _L.require = old_require
   if not status then
     return { status = 'Error', error = ret }

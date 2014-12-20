@@ -53,9 +53,15 @@ do
 				local val = rawget(_L, key)
 				if val ~= nil then
 					return val
-				else
-					return old_env[key]
-				end
+				elseif old_env == _G then
+          val = rawget(old_env, key)
+          -- Make errors more obvious. TODO: Only do this if strict lua is active?
+          if val == nil then
+            error("variable '" .. key .. "' is not declared", 2)
+          end
+        end
+        
+        return old_env[key]
 			end
 		end
 		
@@ -87,6 +93,8 @@ do
 		end
 	end
 	
+  console.set_function_scope = set_scope
+  
 	function USAGE(additional_text)
 		error((additional_text and additional_text .. ' ' or '') .. last_usage_text, 2)
 	end
