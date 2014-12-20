@@ -131,3 +131,6 @@ Lists all equipment items currently on `entity`. If `entity` was not specified, 
 
 ### `@ run_effect [entity] uri`
 Runs an effect on `entity`. Note that this effect cannot be stopped. If `entity` was not specified, the selected entity is used instead.
+
+### `@ run file`
+Executes `file` within *jelly_console/run*. These files are re-loaded every time this command is executed, so they can be used to perform complex lua tasks at runtime. Because `require` is locally overloaded, these files can also require other files - which are also reloaded.

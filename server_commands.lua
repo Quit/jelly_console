@@ -233,10 +233,37 @@ add_entity_command('@run_effect', function(cmd, args)
 	return Success()
 end)
 
--- used by select on the JS side
+console.add_command('@run', function(cmd, args, arg_str)
+  local func, err = loadfile('mods/jelly_console/run/' .. arg_str)
+  
+  if not func then
+    error('Cannot load file: ' .. tostring(err))
+  end
+
+  -- Overload require so it works as expected
+  local old_require = _L.require
+  _L.require = function(name)
+    local ret, err = loadfile('mods/jelly_console/run/' .. name .. '.lua')
+    if not ret then
+      error(err, 2)
+    end
+    
+    return ret()
+  end
+  
+  local status, ret = pcall(setfenv(func, getfenv()))
+  _L.require = old_require
+  if not status then
+    return { status = 'Error', error = ret }
+  end
+  
+  return Success(ret)
+end)
+
+-- Used by the console itself as a hidden command
 console.add_command('~select', function(cmd, args, argstr)
 	SELECTED = args[1]
-	return { status = 'Success', entity = tostring(SELECTED or '(NONE)') }
+  return Success(tostring(SELECTED or '(NONE)'))
 end)
 
 return console
