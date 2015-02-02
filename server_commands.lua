@@ -182,15 +182,6 @@ add_entity_command('@think', function(cmd, args)
 	return Success()
 end, 'Usage: think [entity] uri [priority]')
 
-add_entity_command('@unthink', function(cmd, args)
-	if type(args[2]) ~= 'string' then
-		USAGE('Invalid uri.')
-	end
-	
-	radiant.entities.unthink(args[1], args[2])
-	return Success()
-end, 'Usage: unthink [entity] uri. If `entity` is not specified, the selected entity is used instead.')
-
 add_entity_command('@equip_item', function(cmd, args)
 	if type(args[2]) == 'string' then
 		args[2] = radiant.entities.create_entity(args[2])
