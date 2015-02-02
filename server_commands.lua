@@ -231,8 +231,21 @@ add_entity_command('@run_effect', function(cmd, args)
 	
 	radiant.effects.run_effect(args[1], args[2])
 	return Success()
-end)
+end, 'Usage: run_effect [entity] effect_uri. If `entity` is not specified, the selected entity is used instead.')
 
+add_entity_command('@get_material', function(cmd, args)
+  return Success(args[1]:add_component('render_info'):get_material())
+end, 'Usage: get_material [entity].  If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@set_material', function(cmd, args)
+  if type(args[2]) ~= 'string' then
+    USAGE('Invalid material')
+  end
+  
+  args[1]:add_component('render_info'):set_material(args[2])
+end, 'Usage: set_material [entity] material_uri.  If `entity` is not specified, the selected entity is used instead.')
+
+-- run-related helper function
 local function run_require(name)
   local ret, err = loadfile('mods/jelly_console/run/' .. name .. '.lua')
   if not ret then
