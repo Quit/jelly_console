@@ -101,6 +101,9 @@ Sets the position of `entity` to `(x, y, z)`. If `entity` was not specified, the
 ### `@ get_pos [entity]`
 Returns the position of `entity`.
 
+### `@ turn_to [entity] degrees`
+Sets the rotation of `entity` to `degrees`. If `entity` was not specified, the selected entity is used instead.
+
 ### `@ add_buff [entity] uri`
 Adds the buff located at `uri` to `entity`.  If `entity` was not specified, the selected entity is used instead.
 

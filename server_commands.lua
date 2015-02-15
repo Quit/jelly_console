@@ -236,6 +236,15 @@ add_entity_command('@set_material', function(cmd, args)
   args[1]:add_component('render_info'):set_material(args[2])
 end, 'Usage: set_material [entity] material_uri.  If `entity` is not specified, the selected entity is used instead.')
 
+add_entity_command('@turn_to', function(cmd, args)
+  local degrees = tonumber(args[2])
+  if not degrees then
+    USAGE('Invalid number.')
+  end
+  
+  radiant.entities.turn_to(args[1], degrees)
+end, 'Usage: turn_to [entity] degrees. If `entity` is not specified, the selected entity is used instead.')
+
 -- run-related helper function
 local function run_require(name)
   local ret, err = loadfile('mods/jelly_console/run/' .. name .. '.lua')
