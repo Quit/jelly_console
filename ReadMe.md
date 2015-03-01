@@ -132,6 +132,9 @@ Unequips equipment of type `uri` on `entity`. If `entity` was not specified, the
 ### `@ get_equipment [entity]`
 Lists all equipment items currently on `entity`. If `entity` was not specified, the selected entity is used instead.
 
+### `@ set_game_speed game_speed`
+Sets the game speed to  `game_speed`. `game_speed` needs to be a number equal or greather than 0.
+
 ### `@ run_effect [entity] uri`
 Runs an effect on `entity`. Note that this effect cannot be stopped. If `entity` was not specified, the selected entity is used instead.
 

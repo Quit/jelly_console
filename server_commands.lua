@@ -245,6 +245,17 @@ add_entity_command('@turn_to', function(cmd, args)
   radiant.entities.turn_to(args[1], degrees)
 end, 'Usage: turn_to [entity] degrees. If `entity` is not specified, the selected entity is used instead.')
 
+console.add_command('@set_game_speed', function(cmd, args, arg_str)
+  local factor = tonumber(arg_str)
+  if not factor then
+    USAGE('Invalid speed.')
+  elseif factor < 0 then
+    USAGE('game_speed may not be less than 0.')
+  end
+  
+  stonehearth.game_speed:set_game_speed(factor, true)
+end, 'Usage: set_game_speed game_speed. `game_speed` is the factor the game should run at, with 1 being normal speed.')
+
 -- run-related helper function
 local function run_require(name)
   local ret, err = loadfile('mods/jelly_console/run/' .. name .. '.lua')
