@@ -180,7 +180,17 @@ add_entity_command('@think', function(cmd, args)
 	
 	radiant.entities.think(args[1], args[2], tonumber(args[3]) or 0)
 	return Success()
-end, 'Usage: think [entity] uri [priority]')
+end, 'Usage: think [entity] uri [priority]. If `entity` is not specified, the selected entity is used instead.')
+
+-- stonehearth:thought_bubble is currently broken; _thought_uri is never set so unset_thought won't work.
+--~ add_entity_command('@unthink', function(cmd, args)
+--~   if type(args[2]) ~= 'string' then
+--~     USAGE('Invalid uri.')
+--~   end
+--~   
+--~   args[1]:get_component('stonehearth:thought_bubble'):unset_thought(args[2])
+--~   return Success()
+--~ end, 'Usage: unthink [entity] uri. If `entity` is not specified, the selected entity is used instead.')
 
 add_entity_command('@equip_item', function(cmd, args)
 	if type(args[2]) == 'string' then

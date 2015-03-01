@@ -120,9 +120,6 @@ Sets the name of `entity` to everything that follows after the first argument.  
 ### `@ think [entity] uri`
 Forces `entity` to think `uri`. These are the thought bubbles for sleep or hunger that appears over their heads. This "thought" will persist until `unthink` is called. If `entity` was not specified, the selected entity is used instead.
 
-### `@ unthink [entity] uri`
-Forces `entity` to stop thinking about `uri`. If `entity` was not specified, the selected entity is used instead.
-
 ### `@ equip_item [entity] (equipment_uri|equipment_entity)`
 Equips something on `entity`. If the second argument is a string, said entity is created. If `entity` was not specified, the selected entity is used instead.
 
