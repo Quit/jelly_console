@@ -192,20 +192,12 @@ end, 'Usage: think [entity] uri [priority]. If `entity` is not specified, the se
 --~   return Success()
 --~ end, 'Usage: unthink [entity] uri. If `entity` is not specified, the selected entity is used instead.')
 
-add_entity_command('@equip_item', function(cmd, args)
-	if type(args[2]) == 'string' then
-		args[2] = radiant.entities.create_entity(args[2])
-	end
-	
-	if not is_entity(args[2]) then
-		USAGE('The equipment must be an entity too.')
-	end
-	
+add_entity_command({ '@equip_item', '@equip' }, function(cmd, args)
 	radiant.entities.equip_item(args[1], args[2])
 	return Success()
-end, 'Usage: equip_item [entity] (uri|entity). If an uri is specified, a new item is created. If `entity` is not specified, the selected entity is used instead.')
+end, 'Usage: equip_item [entity] (uri|entity). If an uri is specified as second parameter, a new item is created. If `entity` is not specified, the selected entity is used instead.')
 
-add_entity_command('@unequip_item', function(cmd, args)
+add_entity_command({ '@unequip_item', '@unequip' }, function(cmd, args)
 	if type(args[2]) ~= 'string' then
 		USAGE('Invalid uri.')
 	end
