@@ -140,6 +140,10 @@ add_entity_command('@set_pos', function(cmd, args)
 end)
 
 add_entity_command('@get_pos', function(cmd, args)
+  return Success(args[1]:get_component('mob'):get_location())
+end, 'Usage: get_pos [entity]. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command('@get_world_pos', function(cmd, args)
 	return Success(radiant.entities.get_world_location(args[1]))
 end, 'Usage: get_pos [entity]. If `entity` is not specified, the selected entity is used instead.')
 
@@ -214,7 +218,7 @@ add_entity_command({ '@get_equipment', '@get_equip', '@equip_get' }, function(cm
 		t[k] = tostring(v) -- to make formatting nicer
 	end
 	
-	return t
+	return Success(t)
 end, 'Usage: get_equipment [entity]. If `entity` is not specified, the selected entity is used instead.')
 
 add_entity_command('@run_effect', function(cmd, args)
@@ -236,6 +240,7 @@ add_entity_command('@set_material', function(cmd, args)
   end
   
   args[1]:add_component('render_info'):set_material(args[2])
+  return Success()
 end, 'Usage: set_material [entity] material_uri.  If `entity` is not specified, the selected entity is used instead.')
 
 add_entity_command('@turn_to', function(cmd, args)
@@ -245,6 +250,7 @@ add_entity_command('@turn_to', function(cmd, args)
   end
   
   radiant.entities.turn_to(args[1], degrees)
+  return Success()
 end, 'Usage: turn_to [entity] degrees. If `entity` is not specified, the selected entity is used instead.')
 
 console.add_command('@set_game_speed', function(cmd, args, arg_str)
@@ -256,6 +262,7 @@ console.add_command('@set_game_speed', function(cmd, args, arg_str)
   end
   
   stonehearth.game_speed:set_game_speed(factor, true)
+  return Success()
 end, 'Usage: set_game_speed game_speed. `game_speed` is the factor the game should run at, with 1 being normal speed.')
 
 -- run-related helper function
