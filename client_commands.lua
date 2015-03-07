@@ -1,7 +1,7 @@
 --[=============================================================================[
 The MIT License (MIT)
 
-Copyright (c) 2014 RepeatPan
+Copyright (c) 2015 RepeatPan
 excluding parts that were written by Radiant Entertainment
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,18 +23,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]=============================================================================]
 
-local JsHandler = class()
 local console = require('console')
+local is_entity = radiant.check.is_entity
 
-JsHandler['server:call'] = function(self, session, response, ...)
-	return console._dispatch(session, response, ...)
-end
+-- @foo specifies that this command may be executed as plain one, therefore JS will register both "foo" and "@foo"
+console.add_command({ '@eval_client', '@lua_run_cl', '@lua_cl', '@lc' }, function(cmd, args, argstr)
+	local func, err = loadstring(argstr, 'eval')
+	if not func then
+		error('Cannot compile function: ' .. err)
+	end
+	
+	return { status = 'Success', result = console.set_function_scope(func)() }
+end, 'Usage: eval lua_string')
 
-JsHandler['server:get_datastore'] = function(self, session, response, ...)
-	return { datastore = console._datastore }
-end
-
-JsHandler['client:call'] = JsHandler['server:call']
-JsHandler['client:get_datastore'] = JsHandler['server:get_datastore']
-
-return JsHandler
+return console
