@@ -99,7 +99,10 @@ Returns the current model variant of `entity`. If `entity` was not specified, th
 Sets the position of `entity` to `(x, y, z)`. If `entity` was not specified, the selected entity is used instead.
 
 ### `@ get_pos [entity]`
-Returns the position of `entity`.
+Returns the position of `entity` local to its parent. If `entity` was not specified, the selected entity is used instead.
+
+### `@ get_world_pos [entity]`
+Returns the position of `entity` in the world. If `entity` was not specified, the selected entity is used instead.
 
 ### `@ turn_to [entity] degrees`
 Sets the rotation of `entity` to `degrees`. If `entity` was not specified, the selected entity is used instead.
