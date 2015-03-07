@@ -146,6 +146,11 @@ function console.add_command(names, callback, usage_text)
 	update_command_list()
 end
 
+-- Returns the environment that this part of the lua environment uses.
+function console.get_environment()
+  return _L
+end
+
 function console._dispatch(session, response, name, args, arg_str)
 	local command = console._commands[name]
 	if not command then

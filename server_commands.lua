@@ -26,16 +26,6 @@ SOFTWARE.
 local console = require('console')
 local is_entity = radiant.check.is_entity
 
--- @foo specifies that this command may be executed as plain one, therefore JS will register both "foo" and "@foo"
-console.add_command({ '@eval', '@lua_run', '@lua', '@l' }, function(cmd, args, argstr)
-	local func, err = loadstring(argstr, 'eval')
-	if not func then
-		error('Cannot compile function: ' .. err)
-	end
-	
-	return { status = 'Success', result = console.set_function_scope(func)() }
-end, 'Usage: eval lua_string')
-
 local function Success(result)
 	return { status = 'Success', result = result }
 end
@@ -53,6 +43,16 @@ local function add_entity_command(names, callback, usage_str)
 		return console.set_function_scope(callback)(cmd, args, ...)
 	end, usage_str)
 end
+
+-- @foo specifies that this command may be executed as plain one, therefore JS will register both "foo" and "@foo"
+console.add_command({ '@eval', '@lua_run', '@lua', '@l' }, function(cmd, args, argstr)
+	local func, err = loadstring(argstr, 'eval')
+	if not func then
+		error('Cannot compile function: ' .. err)
+	end
+	
+	return Success(console.set_function_scope(func)())
+end, 'Usage: eval lua_string')
 
 add_entity_command({ '@kill_entity', '@kill' }, function(cmd, args)
 	radiant.entities.kill_entity(args[1])
