@@ -47,14 +47,12 @@ $(top).on('jelly.PostRootViewInit', function() {
          return def;
       }
       
-      console.debug(cmdobj);
       return radiant.callv('jelly_console:' + cmdobj._options.side + ':call', [ fn, parsed_args, args.join(' ') ]).deferred;
    };
    
    // Calls a lua function, sending the arguments 1:1 as "unparsed" array
    var call_lua_function_plain = function(cmdobj, fn, args)
    {
-      console.debug(cmdobj);
       return radiant.callv('jelly_console:' + cmdobj._options.side + ':call', [ fn.substr(1), args, args.join(' ') ]).deferred;
    };
    
