@@ -253,6 +253,22 @@ add_entity_command('@turn_to', function(cmd, args)
   return Success()
 end, 'Usage: turn_to [entity] degrees. If `entity` is not specified, the selected entity is used instead.')
 
+add_entity_command('@get_parent', function(cmd, args)
+  return Success(radiant.entities.get_parent(args[1]))
+end, 'Usage: get_parent [entity]. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command({ '@get_player_id', '@get_owner' }, function(cmd, args)
+  return Success(radiant.entities.get_player_id(args[1]))
+end, 'Usage: get_player_id [entity]. If `entity` is not specified, the selected entity is used instead.')
+
+add_entity_command({ 'set_player_id', 'set_owner' }, function(cmd, args)
+  if type(args[2]) ~= 'string' then
+    USAGE('Invalid player id.')
+  end
+  
+  radiant.entities.set_player_id(args[1], args[2])
+end, 'Usage: set_player_id [entity] player_id. If `entity` is not specified, the selected entity is used instead.')
+
 console.add_command('@set_game_speed', function(cmd, args, arg_str)
   local factor = tonumber(arg_str)
   if not factor then

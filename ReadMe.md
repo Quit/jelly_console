@@ -138,5 +138,14 @@ Sets the game speed to  `game_speed`. `game_speed` needs to be a number equal or
 ### `@ run_effect [entity] uri`
 Runs an effect on `entity`. Note that this effect cannot be stopped. If `entity` was not specified, the selected entity is used instead.
 
+### `@ get_parent [entity]`
+Returns the parent of `entity. If `entity` was not specified, the selected entity is used instead.
+
+### `  get_player_id [entity]`
+Returns the player id ("the owner") of `entity`. If `entity` was not specified, the selected entity is used instead.
+
+### `  set_player_id [entity] player_id`
+Sets the player id ("the owner") of `entity` to `player_id`, which has to be a string. If `entity` was not specified, the selected entity is used instead.
+
 ### `@ run file`
 Executes `file` within *jelly_console/run*. These files are re-loaded every time this command is executed, so they can be used to perform complex lua tasks at runtime. Because `require` is locally overloaded, these files can also require other files - which are also reloaded.
