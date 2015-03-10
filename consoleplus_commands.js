@@ -25,7 +25,7 @@ SOFTWARE.
 
 var tracer; // no idea why I've kept this public in jelly - to avoid GC?
 
-$(top).on('jelly.PostRootViewInit', function() {
+$(function() {
    $(top).on("radiant_selection_changed.unit_frame", function (_, data) {
       radiant.call('jelly_console:server:call', '~select', [ data.selected_entity ], undefined);
       radiant.call('jelly_console:client:call', '~select', [ data.selected_entity ], undefined);
@@ -154,4 +154,4 @@ $(top).on('jelly.PostRootViewInit', function() {
    radiant.console.register('clear', {
       call: function() { $('#console .output').empty(); }
    });
-}); // end jelly.PostRootViewInit
+}); // end $()

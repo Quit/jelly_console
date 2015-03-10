@@ -23,7 +23,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 //=============================================================================*/
 
-var load = function() {
+$(function() {
+   if (typeof(jelly) == 'undefined')
+      jelly = {};
+   
 	jelly.console = {};
 
 	// Returns the length of a pattern, if found, zero otherwise
@@ -134,7 +137,4 @@ var load = function() {
 
 			return protoArgs;
 	};
-}; // end load()
-
-// jelly JS loader
-(jelly != undefined ? load() : $(top).on('jelly.PostJellyInit', load));
+});
