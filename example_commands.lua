@@ -1,4 +1,19 @@
-local console = radiant.mods.require('jelly_console.console')
+-- Attempt to get jelly_console
+local console = rawget(_G, 'jelly_console')
+
+-- If jelly_console is not installed, create a fake table
+-- this table will contain functions that simply do nothing.
+-- This way, you can still add functions even if the user
+-- hasn't installed jell_console. They won't work, but
+-- they won't break anything either.
+if not console then 
+  local console_light = {
+    add_command = function() end,
+    get_scope = function() return {} end
+  }
+  
+  console = setmetatable({}, { __index = console_light })
+end
 
 -- Adds a new command which just prints what it receives
 console.add_command(
