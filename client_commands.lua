@@ -92,6 +92,10 @@ console.add_command('@display_cube', function(cmd, args)
   local min_x, min_y, min_z = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
   local max_x, max_y, max_z = tonumber(args[4]), tonumber(args[5]), tonumber(args[6])
   
+  if not min_x or not min_y or not min_z or not max_x or not max_y or not max_z then
+    USAGE('Invalid coordinate.')
+  end
+  
   display_cube(Point3(min_x, min_y, min_z), Point3(max_x, max_y, max_z))
   return Success()
 end, 'Usage: display_cube min_x min_y min_z max_x max_y max_z')
