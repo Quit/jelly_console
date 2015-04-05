@@ -32,13 +32,26 @@ local _L = {
   Point2 = _radiant.csg.Point2,
   Point3 = _radiant.csg.Point3,
   Cube3 = _radiant.csg.Cube3,
-  Region3 = _radiant.csg.Region3
+  Region3 = _radiant.csg.Region3,
+  Color4 = _radiant.csg.Color4,
+  Quaternion = _radiant.csg.Quatenrion
 } -- local environment that new variables are inserted into
 
 -- Scopes a function so they gain access to SELECTED. This is really evil. Kinda.
 -- (it's also not working with lua5.2 I think?)
 local set_scope
 local last_usage_text -- last string to be used for usage()
+
+-- Insert some helpful functions into _L
+do
+  function _L.get_component(...)
+    return SELECTED:get_component(...)
+  end
+  
+  function _L.add_component(...)
+    return SELECTED:add_component(...)
+  end
+end
 
 do
 	local function create_env(old_env)
