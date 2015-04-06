@@ -269,6 +269,15 @@ add_entity_command({ 'set_player_id', 'set_owner' }, function(cmd, args)
   radiant.entities.set_player_id(args[1], args[2])
 end, 'Usage: set_player_id [entity] player_id. If `entity` is not specified, the selected entity is used instead.')
 
+add_entity_command('level_up', function(cmd, args)
+  local job = args[1]:get_component('stonehearth:job')
+  if not job then
+    USAGE('Entity has no profession.')
+  end
+  
+  job:_level_up()
+end, 'Usage: level_up [entity]. If `entity` is not specified, the selected entity is used instead.')
+
 console.add_command('@set_game_speed', function(cmd, args, arg_str)
   local factor = tonumber(arg_str)
   if not factor then
