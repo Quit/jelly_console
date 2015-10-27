@@ -121,7 +121,7 @@ end
 local function update_command_list()
 	local t = {}
 	for cmd, data in pairs(console._commands) do
-		table.insert(t, { name = cmd, endpoint = radiant.is_server and 'server' or 'client', plain_allowed = data.plain_allowed })
+		table.insert(t, { name = cmd, endpoint = radiant.is_server and 'server' or 'client', plain_allowed = data.plain_allowed, usage_text = data.usage_text })
 	end
 	console._datastore:set_data({ commands = t })
 end

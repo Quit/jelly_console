@@ -137,7 +137,7 @@ add_entity_command('@set_pos', function(cmd, args)
 	
 	radiant.entities.move_to(ent, { x = x, y = y, z = z })
 	return Success()
-end)
+end, 'Usage: set_pos [entity] position. If `entity` is not specified, the selected entity is used instead.')
 
 add_entity_command('@get_pos', function(cmd, args)
   return Success(args[1]:get_component('mob'):get_location())
@@ -319,7 +319,7 @@ console.add_command('@run', function(cmd, args, arg_str)
   end
   
   return Success(ret)
-end)
+end, 'Usage: run lua_file. `lua_file` is the filename within mods/jelly_console/run that should be loaded and executed.')
 
 -- Used by the console itself as a hidden command
 console.add_command('~select', function(cmd, args, argstr)

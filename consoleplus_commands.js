@@ -71,14 +71,16 @@ $(function() {
                
                radiant.console.register(cmd.name, {
                   call: call_lua_function,
-                  side: side
+                  side: side,
+                  description: cmd.usage_text
                });
                
                if (cmd.plain_allowed)
                {
                   radiant.console.register('@' + cmd.name, {
                      call: call_lua_function_plain,
-                     side: side
+                     side: side,
+                     description: cmd.usage_text
                   });
                }
             }); // end foreach
@@ -105,7 +107,9 @@ $(function() {
          if (newHeight > 500 || newHeight < 50)
             return;
          setHeight(newHeight);
-      }
+      },
+
+      description: 'Usage: expand [size]. If `size` is omitted, the console window is expanded by 50px.'
    });
    
    radiant.console.register('shrink', {
@@ -116,7 +120,9 @@ $(function() {
          if (newHeight < 50 || newHeight > 500)
             return;
          setHeight(newHeight);
-      }
+      },
+
+      description: 'Usage: shrink [size]. If `size` is omitted, the console window is shrunk by 50px.'
    });
    
    radiant.console.register('show_arguments', {
@@ -134,7 +140,9 @@ $(function() {
          }
          
          return def;
-      }
+      },
+
+      description: 'Usage: show_arguments [arguments...].'
    });
    
    radiant.console.register('@show_arguments', {
@@ -143,15 +151,19 @@ $(function() {
          var def = jQuery.Deferred();
          def.resolve(args);
          return def;
-      }
+      },
+
+      description: 'Usage: show_arguments [arguments...].'
    });
    
    // Allow empty lines. Not exactly a nice solution, but a cheap one.
    radiant.console.register('', {
-      call: function() {}
+      call: function() {},
+      description: 'Workaround to allow empty lines between outputs as spacer.'
    });
    
    radiant.console.register('clear', {
-      call: function() { $('#console .output').empty(); }
+      call: function() { $('#console .output').empty(); },
+      description: 'Usage: clear. Clears the console window.'
    });
 }); // end $()
