@@ -51,6 +51,15 @@ do
   function _L.add_component(...)
     return SELECTED:add_component(...)
   end
+  
+  -- Returns all methods of `obj` as table
+  function _L.methods(obj)
+    return class_info(obj).methods
+  end
+  
+  function _L.load_json(...)
+    return radiant.resources.load_json(...)
+  end
 end
 
 do
