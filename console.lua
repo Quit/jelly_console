@@ -28,14 +28,12 @@ local console = { _commands = {}, _datastore = radiant.create_datastore() }
 -- The currently selected entity
 local SELECTED
 local USAGE -- function that can be called in case the command was used wrongly
-local _L = {
-  Point2 = _radiant.csg.Point2,
-  Point3 = _radiant.csg.Point3,
-  Cube3 = _radiant.csg.Cube3,
-  Region3 = _radiant.csg.Region3,
-  Color4 = _radiant.csg.Color4,
-  Quaternion = _radiant.csg.Quatenrion
-} -- local environment that new variables are inserted into
+local _L = {} -- local environment that new variables are inserted into
+
+-- Offer all radiant default objects already as available.
+for k, v in pairs(_radiant.csg) do
+	_L[k] = v
+end
 
 -- Scopes a function so they gain access to SELECTED. This is really evil. Kinda.
 -- (it's also not working with lua5.2 I think?)
