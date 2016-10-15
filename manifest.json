@@ -1,8 +1,8 @@
 {
    "info" : {
-      "name" : "[JELLY] ConsolePlus",
+      "name" : "ConsoleSharp",
       "description" : "Pimps Radiant's ingame console a little bit.",
-      "version" : 2
+      "version" : 3
    },
 	
    "server_init_script" : "file(server_commands)",
