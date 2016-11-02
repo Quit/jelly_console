@@ -35,14 +35,14 @@ local function Success(result)
 end
 
 -- @foo specifies that this command may be executed as plain one, therefore JS will register both "foo" and "@foo"
-console.add_command({ '@eval_client', '@lua_run_cl', '@lua_cl', '@lc' }, function(cmd, args, argstr)
+console.add_command({ '@lua_run_cl', '@lua_cl', '@lc' }, function(cmd, args, argstr)
 	local func, err = loadstring(argstr, 'eval')
 	if not func then
 		error('Cannot compile function: ' .. err)
 	end
 	
 	return Success(console.set_function_scope(func)())
-end, 'Usage: eval lua_string')
+end, 'Usage: @lc lua_string')
 
 -- Cube stuff as visual debugging aid
 local function hsv_to_rgb(h, s, v)

@@ -166,4 +166,13 @@ $(function() {
       call: function() { $('#console .output').empty(); },
       description: 'Usage: clear. Clears the console window.'
    });
+   
+   radiant.console.register('js', {
+      call: function(cmdobj, fn, args) {
+         var def = jQuery.Deferred();
+         def.resolve(eval(args.join(' ')));
+         return def;
+      },
+      description: 'Evaluates some JavaScript.'
+   });
 }); // end $()

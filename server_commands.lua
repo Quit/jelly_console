@@ -45,14 +45,14 @@ local function add_entity_command(names, callback, usage_str)
 end
 
 -- @foo specifies that this command may be executed as plain one, therefore JS will register both "foo" and "@foo"
-console.add_command({ '@eval', '@lua_run', '@lua', '@l' }, function(cmd, args, argstr)
+console.add_command({ '@lua_run', '@lua', '@l' }, function(cmd, args, argstr)
 	local func, err = loadstring(argstr, 'eval')
 	if not func then
 		error('Cannot compile function: ' .. err)
 	end
 	
 	return Success(console.set_function_scope(func)())
-end, 'Usage: eval lua_string')
+end, 'Usage: @lua lua_string')
 
 add_entity_command({ '@kill_entity', '@kill' }, function(cmd, args)
 	radiant.entities.kill_entity(args[1])
