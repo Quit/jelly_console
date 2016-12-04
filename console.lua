@@ -32,7 +32,7 @@ local _L = {} -- local environment that new variables are inserted into
 
 -- Offer all radiant default objects already as available.
 for k, v in pairs(_radiant.csg) do
-	_L[k] = v
+   _L[k] = v
 end
 
 -- Scopes a function so they gain access to SELECTED. This is really evil. Kinda.
@@ -42,95 +42,105 @@ local last_usage_text -- last string to be used for usage()
 
 -- Insert some helpful functions into _L
 do
-  function _L.get_component(...)
-    return SELECTED:get_component(...)
-  end
-  
-  function _L.add_component(...)
-    return SELECTED:add_component(...)
-  end
-  
-  -- Returns all methods of `obj` as table
-  function _L.methods(obj)
-    return class_info(obj).methods
-  end
-  
-  function _L.load_json(...)
-    return radiant.resources.load_json(...)
-  end
+   function _L.get_component(...)
+      return SELECTED:get_component(...)
+   end
+   
+   _L.gc = _L.get_component
+
+   function _L.add_component(...)
+      return SELECTED:add_component(...)
+   end
+   
+   _L.ac = _L.add_component
+
+   -- Returns all methods of `obj` as table
+   function _L.methods(obj)
+      return class_info(obj).methods
+   end
+   
+   function _L.load_json(...)
+      return radiant.resources.load_json(...)
+   end
+
+   _L.entities = radiant.entities
+
+   function _L.get_player_id(...)
+      return radiant.entities.get_player_id(...)
+   end
 end
 
 do
-	local function create_env(old_env)
-		local ENV = {}
-		
-		function ENV:__index(key)
-			-- Because of its nature, "SELECTED" and "USAGE" are always available
-			-- and are not meant to be overwritten/changed by console commands
-			if key == 'SELECTED' then
-				return SELECTED
-			elseif key == 'USAGE' then
-				return USAGE
-			elseif key == '_L' then
-				return _L
-			else
-				-- Last attempt; prefer local values
-				local val = rawget(_L, key)
-				if val ~= nil then
-					return val
-				elseif old_env == _G then
-          val = rawget(old_env, key)
-          -- Make errors more obvious. TODO: Only do this if strict lua is active?
-          if val == nil then
-            error("variable '" .. key .. "' is not declared", 2)
-          end
-        end
-        
-        return old_env[key]
-			end
-		end
-		
-		function ENV:__newindex(key, value)
-			if key == 'SELECTED' then
-				SELECTED = value
-			-- Functions that are already defined globally may be overwritten
-			elseif rawget(old_env, key) == nil then
-				_L[key] = value
-			else
-				old_env[key] = value
-			end
-		end
-		
-		ENV = setmetatable({}, ENV)
-		
-		return ENV
-	end
-	
-	local G_ENV = create_env(_G)
-	
-	-- Scopes a function to allow it access to SELECTED and other nasty bits I have yet to add
-	function set_scope(func)
-		local old_env = getfenv(func)
-		if old_env == _G then
-			return setfenv(func, G_ENV)
-		else
-			return setfenv(func, create_env(old_env))
-		end
-	end
-	
-  console.set_function_scope = set_scope
-  
-	function USAGE(additional_text)
-		error((additional_text and additional_text .. ' ' or '') .. last_usage_text, 2)
-	end
+   local function create_env(old_env)
+      local ENV = {}
+      
+      function ENV:__index(key)
+         -- Because of its nature, "SELECTED" and "USAGE" are always available
+         -- and are not meant to be overwritten/changed by console commands
+         if key == 'SELECTED' then
+            return SELECTED
+         elseif key == 'USAGE' then
+            return USAGE
+         elseif key == '_L' then
+            return _L
+         else
+            -- Last attempt; prefer local values
+            local val = rawget(_L, key)
+            if val ~= nil then
+               return val
+            elseif old_env == _G then
+               val = rawget(old_env, key)
+               -- Make errors more obvious. TODO: Only do this if strict lua is active?
+               if val == nil then
+                  error("variable '" .. key .. "' is not declared", 2)
+               end
+            end
+            
+            return old_env[key]
+         end
+      end
+      
+      function ENV:__newindex(key, value)
+         if key == 'SELECTED' then
+            SELECTED = value
+         -- Functions that are already defined globally may be overwritten
+         elseif rawget(old_env, key) == nil then
+            _L[key] = value
+         else
+            old_env[key] = value
+         end
+      end
+      
+      ENV = setmetatable({}, ENV)
+      
+      return ENV
+   end
+   
+   local G_ENV = create_env(_G)
+   
+   -- Scopes a function to allow it access to SELECTED and other nasty bits I have yet to add
+   function set_scope(func)
+      local old_env = getfenv(func)
+      if old_env == _G then
+         return setfenv(func, G_ENV)
+      else
+         return setfenv(func, create_env(old_env))
+      end
+   end
+   
+   console.set_function_scope = set_scope
+   
+   function USAGE(additional_text)
+      error((additional_text and additional_text .. ' ' or '') .. last_usage_text, 2)
+   end
 end
 
 local function update_command_list()
-	local t = {}
-	for cmd, data in pairs(console._commands) do
-		table.insert(t, { name = cmd, endpoint = radiant.is_server and 'server' or 'client', plain_allowed = data.plain_allowed, usage_text = data.usage_text })
-	end
-	console._datastore:set_data({ commands = t })
+   local t = {}
+   for cmd, data in pairs(console._commands) do
+      table.insert(t, { name = cmd, endpoint = radiant.is_server and 'server' or 'client', plain_allowed = data.plain_allowed, usage_text = data.usage_text })
+   end
+   console._datastore:set_data({ commands = t })
 end
 
 -- Adds one or multiple commands called `names' (or elements of `names') that point towards `callback'.
@@ -146,54 +156,54 @@ end
 -- `callback` will be put into a different environment which allows it access to console-exclusive functions and variables:
 -- * SELECTED: last selected entity using the 'select' command
 function console.add_command(names, callback, usage_text)
-	if type(names) == 'string' then
-		names = { names }
-	end
-	
-	for _, name in pairs(names) do
-		if not name or name:find(' ') then
-			error('Invalid command name ' .. tostring(name))
-		end
-		
-		local plain_allowed
-		if name:sub(1, 1) == '@' then
-			name, plain_allowed = name:sub(2), true
-		end
-		
-		console._commands[name] = { call = set_scope(callback), usage_text = usage_text, plain_allowed = plain_allowed }
-	end
-	
-	update_command_list()
+   if type(names) == 'string' then
+      names = { names }
+   end
+   
+   for _, name in pairs(names) do
+      if not name or name:find(' ') then
+         error('Invalid command name ' .. tostring(name))
+      end
+      
+      local plain_allowed
+      if name:sub(1, 1) == '@' then
+         name, plain_allowed = name:sub(2), true
+      end
+      
+      console._commands[name] = { call = set_scope(callback), usage_text = usage_text, plain_allowed = plain_allowed }
+   end
+   
+   update_command_list()
 end
 
 -- Returns the environment that this part of the lua environment uses.
 function console.get_environment()
-  return _L
+   return _L
 end
 
 function console._dispatch(session, response, name, args, arg_str)
-	local command = console._commands[name]
-	if not command then
-		response:reject('Command not found')
-		return
-	end
-	
-	last_usage_text = command.usage_text or 'Invalid use of ' .. name .. ' (and the author hasn\'t specified how to properly use it)'
-	
-	local ret = { pcall(command.call, name, args, arg_str, response) }
-	local status = table.remove(ret, 1)
-	if not status then
-		-- Sadly, we cannot just return the string - the data binding seems to 
-		-- transform it into { result: str }
-		response:reject({ error = 'Executing command failed: ' .. ret[1] })
-		return
-	end
-	
-	return unpack(ret)
+   local command = console._commands[name]
+   if not command then
+      response:reject('Command not found')
+      return
+   end
+   
+   last_usage_text = command.usage_text or 'Invalid use of ' .. name .. ' (and the author hasn\'t specified how to properly use it)'
+   
+   local ret = { pcall(command.call, name, args, arg_str, response) }
+   local status = table.remove(ret, 1)
+   if not status then
+      -- Sadly, we cannot just return the string - the data binding seems to 
+      -- transform it into { result: str }
+      response:reject({ error = 'Executing command failed: ' .. ret[1] })
+      return
+   end
+   
+   return unpack(ret)
 end
 
 function console._set_selected(entity)
-	SELECTED = entity
+   SELECTED = entity
 end
 
 return console
