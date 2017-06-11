@@ -30,6 +30,8 @@ local Region3 = _radiant.csg.Region3
 local Color4 = _radiant.csg.Color4
 local is_entity = radiant.check.is_entity
 
+require('lib.table')
+
 local function Success(result)
 	return { status = 'Success', result = result }
 end

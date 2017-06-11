@@ -47,13 +47,13 @@ $(function() {
          return def;
       }
       
-      return radiant.callv('jelly_console:' + cmdobj._options.side + ':call', [ fn, parsed_args, args.join(' ') ]).deferred;
+      return radiant.callv('jelly_console:' + cmdobj._options.side + ':call', [ fn, parsed_args, args._.join(' ') ]).deferred;
    };
    
    // Calls a lua function, sending the arguments 1:1 as "unparsed" array
    var call_lua_function_plain = function(cmdobj, fn, args)
    {
-      return radiant.callv('jelly_console:' + cmdobj._options.side + ':call', [ fn.substr(1), args, args.join(' ') ]).deferred;
+      return radiant.callv('jelly_console:' + cmdobj._options.side + ':call', [ fn.substr(1), args, args._.join(' ') ]).deferred;
    };
    
    var register_data_store = function(side)

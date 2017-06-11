@@ -24,6 +24,7 @@ SOFTWARE.
 ]=============================================================================]
 
 local console = require('console')
+require('lib.table')
 local is_entity = radiant.check.is_entity
 
 local function Success(result)
